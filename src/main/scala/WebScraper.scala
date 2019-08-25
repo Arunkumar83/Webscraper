@@ -20,7 +20,7 @@ object WebScraper extends App {
 
   val marvelList = List[MarvelRecord]()
 
-  val site = scala.io.Source.fromURL("http://www.marvel-ironman.surge.sh")
+  val site = scala.io.Source.fromURL("http://marvel-ironman.surge.sh")
   //done it for testing purpose
   //val site = scala.io.Source.fromFile("d://docs//marvel.html")
   val d =  Jsoup.parse(site.mkString)
@@ -55,17 +55,12 @@ object WebScraper extends App {
     val values = rec.split('|')
       .map(_.trim)
       .map( s => if(s.equalsIgnoreCase("None"))  "not-available" else s)
-
-    // println(s"${values(0)},${values(1)},${values(2)},$values(3),$values(4),$values(5),$values(6),$values(7),$values(8),$values(9)")
     //Marvel(colleen wing (earth-616) ,public identity ,good characters ,blue eyes ,auburn hair ,living characters ,175.0 ,nov-74 ,1974.0,)
     val firstapp = values(8)
-
     val year = values(9)
     var time=""
-
     if(!"not-available".equalsIgnoreCase(firstapp) || !"not-available".equalsIgnoreCase(year)) {
-
-      val timeline = year.dropRight(2) + "-" + monthToNumeric(firstapp.split("-")(0)) + "-01"
+     val timeline = year.dropRight(2) + "-" + monthToNumeric(firstapp.split("-")(0)) + "-01"
       time = timeline
     }else {
       time = "not-available"
